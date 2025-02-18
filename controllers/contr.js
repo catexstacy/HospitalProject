@@ -65,7 +65,7 @@ const addNewPatients  = async (req, res) => {
   const client = pool.connect();
   try {
     const newPatient = (await client).query(
-      `INSERT INTO patients(_id, first_name, last_name, sex, age, geo, phone, email)
+      `INSERT INTO patients (_id, first_name, last_name, sex, age, geo, phone, email)
 VALUES(100, 'Stacy', 'Catherine', 'F', '30', 'Nairobi', '+254899999', 'stacycatex@gmail.com')
     );`
     console.log(newPatient);
