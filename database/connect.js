@@ -6,7 +6,7 @@ const pool = new pg.Pool({
   user: process.env.DATABSE_USER,
   host: process.env.DATABASE_HOST,
   database: 'Hospitaldb',
-  password: process.env.PASSWORD,
+  password: '#73641935jL',
   port: 5432,
 });
 

@@ -9,8 +9,8 @@ const {
 const router = Router();
 
 router.get('/', handleRoot);
+router.post('/create', addNewPatients);
 router.get('/patients/:patient_id', getSinglePatient);
 router.get('/search', handleQueries);
-router.get('/create', addNewPatients);
 
 module.exports = router;
