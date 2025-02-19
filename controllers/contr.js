@@ -2,14 +2,15 @@ const patients = require('../database/patients.json');
 const pool = require('../database/connect');
 
 const handleRoot = async (req, res) => {
-  const client = pool.connect();
+  let client;
   try {
+    client = await pool.connect();
     const { rows } = await (await client).query(`SELECT * FROM patients`);
     res.status(200).json({ ok: true, rows });
   } catch (error) {
-    console.log(error);
+ res.status(500).json({ok: false, error:error.message || 'Internal server error' })
   } finally {
-    (await client).release();
+    if(client) client.release();
   }
 };
 
@@ -67,11 +68,11 @@ const handleQueries = async (req, res) => {
 //Adding Patients
 const addNewPatients = async (req, res) => {
   const { _id, first_name, last_name, age, sex, geo, phone, email } = req.body;
-  const client = pool.connect();
+  let client;
 
   try {
-    const newPatient = await (
-      await client
+    client = await pool.connect();
+    const newPatient = await (await client
     ).query(
       `INSERT INTO patients (_id, first_name, last_name, sex, age, geo, phone, email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
       [_id, first_name, last_name, sex, age, geo, phone, email],
@@ -82,10 +83,10 @@ const addNewPatients = async (req, res) => {
     res
       .status(201)
       .json({ ok: true, msg: `${first_name} has been added as a patient` });
-  } catch (error) {
-    console.log(error);
-  } finally {
-    await (await client).release();
+  }catch (error) {
+        res.status(500).json({ok: false, error:error.message || 'Internal server error' })
+         } finally {
+ if(client)client.release();
   }
 };
 
