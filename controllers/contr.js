@@ -85,7 +85,7 @@ const addNewPatients = async (req, res) => {
   } catch (error) {
     console.log(error);
   } finally {
-    (await client).release();
+    await (await client).release();
   }
 };
 
